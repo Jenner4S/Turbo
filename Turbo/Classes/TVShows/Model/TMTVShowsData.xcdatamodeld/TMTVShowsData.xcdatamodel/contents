@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="TRBTVShow" representedClassName="TRBTVShow" syncable="YES">
+        <attribute name="actors" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="airsDayOfWeek" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="airsTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="banner" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentRating" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fanart" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstAired" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="genre" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imdbID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="network" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="poster" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Float" minValueString="0" maxValueString="10" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="ratingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="runtime" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="seriesID" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="updated" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="banners" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TRBTVShowBanner" inverseName="series" inverseEntity="TRBTVShowBanner" syncable="YES"/>
+        <relationship name="seasons" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TRBTVShowSeason" inverseName="series" inverseEntity="TRBTVShowSeason" syncable="YES"/>
+    </entity>
+    <entity name="TRBTVShowBanner" representedClassName="TRBTVShowBanner" syncable="YES">
+        <attribute name="bannerID" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="bannerPath" attributeType="String" syncable="YES"/>
+        <attribute name="bannerType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bannerType2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="colors" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="ratingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="season" optional="YES" attributeType="Integer 32" defaultValueString="-1" syncable="YES"/>
+        <attribute name="seriesID" attributeType="Integer 32" syncable="YES"/>
+        <attribute name="seriesName" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="thumbnailPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vignettePath" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="series" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="TRBTVShow" inverseName="banners" inverseEntity="TRBTVShow" syncable="YES"/>
+    </entity>
+    <entity name="TRBTVShowEpisode" representedClassName="TRBTVShowEpisode" syncable="YES">
+        <attribute name="airDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="episodeID" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="episodeNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="episodeTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="notificationScheduled" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rating" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="ratingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="seasonID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="seasonNumber" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="seriesID" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="watched" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <relationship name="season" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="TRBTVShowSeason" inverseName="episodes" inverseEntity="TRBTVShowSeason" syncable="YES"/>
+    </entity>
+    <entity name="TRBTVShowSeason" representedClassName="TRBTVShowSeason" syncable="YES">
+        <attribute name="number" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="seriesID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="episodes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TRBTVShowEpisode" inverseName="season" inverseEntity="TRBTVShowEpisode" syncable="YES"/>
+        <relationship name="series" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="TRBTVShow" inverseName="seasons" inverseEntity="TRBTVShow" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="TRBTVShowSeason" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TRBTVShow" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TRBTVShowBanner" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TRBTVShowEpisode" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
