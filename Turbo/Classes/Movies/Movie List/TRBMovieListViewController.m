@@ -106,7 +106,7 @@ typedef NS_ENUM(NSUInteger, TRBMovieMode) {
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.tableView.tag = TRBMovieModeList;
-	_searchBar.placeholder = @"Search TV Show";
+	_searchBar.placeholder = @"Search Movie";
 	self.searchDisplayController.searchResultsTableView.rowHeight = 100.0;
 	self.searchDisplayController.searchResultsTableView.tag = TRBMovieModeSearch;
 	self.searchDisplayController.displaysSearchBarInNavigationBar = isIdiomPhone;
