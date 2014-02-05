@@ -40,6 +40,7 @@
 	NSArray * _episodes;
 	NSNumberFormatter * _nf;
 	UIPopoverController * _popover;
+	NSIndexPath * _tappedIndexPath;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -100,30 +101,16 @@
 													 cancelButtonTitle:(isIdiomPhone ? @"Cancel": nil)
 												destructiveButtonTitle:nil
 													 otherButtonTitles:@"Search torrent", nil];
-	actionSheet.tag = indexPath.section;
+	_tappedIndexPath = indexPath;
 	UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
 	[actionSheet showFromRect:cell.bounds inView:cell animated:YES];
 }
 
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-//	if (isIdiomPad) {
-//		TRBTVShowEpisode * episode = _episodes[indexPath.row];
-//		UITableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-//		TRBTVShowEpisodeViewController * controller = [self.storyboard instantiateViewControllerWithIdentifier:@"TRBTVShowEpisodeViewController"];
-//		_popover = [[UIPopoverController alloc] initWithContentViewController:controller];
-//		[controller showEpisode:episode];
-//		[_popover presentPopoverFromRect:cell.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-//	}
-//}
-
 #pragma mark - UIActionSheetDelegate Implementation
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	NSIndexPath * indexPath = [self.tableView indexPathForSelectedRow];
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if (buttonIndex == 0) {
-		[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-		TRBTVShowEpisode * episode = _episodes[indexPath.row];
+		TRBTVShowEpisode * episode = _episodes[_tappedIndexPath.row];
 		[self searchOnTorrentz:[episode niceSearchString]];
 	}
 }
