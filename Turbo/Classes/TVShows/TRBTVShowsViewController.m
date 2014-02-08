@@ -99,6 +99,7 @@ typedef NS_ENUM(NSUInteger, TRBTVShowMode) {
 	_searchBar.placeholder = @"Search TV Show";
 	self.searchDisplayController.searchResultsTableView.rowHeight = 100.0;
 	self.searchDisplayController.displaysSearchBarInNavigationBar = isIdiomPhone;
+	self.searchDisplayController.navigationItem.title = @"TV Shows";
 	self.navigationItem.rightBarButtonItem = _calendarButton;
 	if (self.revealingViewController)
 		_calendarNavController = [self.storyboard instantiateViewControllerWithIdentifier:@"TRBTVShowCalendarNavController"];

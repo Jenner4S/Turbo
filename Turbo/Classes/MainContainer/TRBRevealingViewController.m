@@ -54,7 +54,7 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForRightViewControll
 __attribute__((always_inline)) static inline CGRect TRBFrameForTopViewController(TRBRevealingViewController * revealingViewController);
 __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewController(TRBRevealingViewController * revealingViewController);
 
-@interface TRBRevealingViewController ()
+@interface TRBRevealingViewController ()<UIGestureRecognizerDelegate>
 
 @end
 
@@ -66,6 +66,7 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 	__weak UIScreenEdgePanGestureRecognizer * _rightEdgePanGestureRecognizer;
 	__weak UIScreenEdgePanGestureRecognizer * _topEdgePanGestureRecognizer;
 	__weak UIScreenEdgePanGestureRecognizer * _bottomEdgePanGestureRecognizer;
+	UITapGestureRecognizer * _tapGestureRecognizer;
 
 	TRBRevealingViewControllerState _initialState;
 	TRBPanDirection _initialPanDirection;
@@ -150,6 +151,8 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self loadControllersFromStoryboard];
+	_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+	_tapGestureRecognizer.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -459,6 +462,7 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 		[_revealedViewController beginAppearanceTransition:NO animated:animated];
 		[self concealViewController:_revealedViewController animated:animated completion:^{
 			_revealedViewController = nil;
+			[self.view removeGestureRecognizer:_tapGestureRecognizer];
 			if (completion)
 				completion();
 		}];
@@ -593,6 +597,7 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 						 [controller endAppearanceTransition];
 						 _revealedViewController = controller;
 						 [_mainViewController.view setUserInteractionEnabled:NO];
+						 [self.view addGestureRecognizer:_tapGestureRecognizer];
 						 if ([_delegate respondsToSelector:@selector(revealingViewController:didRevealViewController:)])
 							 [_delegate revealingViewController:self didRevealViewController:_revealedViewController];
 						 completion();
@@ -657,6 +662,45 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 	bottomEdgePan.edges = UIRectEdgeBottom;
 	[self.view addGestureRecognizer:bottomEdgePan];
 	_bottomEdgePanGestureRecognizer = bottomEdgePan;
+}
+
+#pragma mark Handle Tap
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer {
+	switch (gestureRecognizer.state) {
+		case UIGestureRecognizerStateEnded:
+			[self handleTapEnded:gestureRecognizer];
+			break;
+		default:
+			break;
+	}
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+	return _state > TRBRevealingViewControllerStateSlidingOut;
+}
+
+- (void)handleTapEnded:(UITapGestureRecognizer *)gestureRecognizer {
+	BOOL shouldConceal = NO;
+	CGPoint tapLocation = [gestureRecognizer locationInView:self.view];
+	switch (_state) {
+		case TRBRevealingViewControllerStateLeftRevealed:
+			shouldConceal = tapLocation.x > (CGRectGetWidth(self.view.bounds) - _edgeInsets.right);
+			break;
+		case TRBRevealingViewControllerStateRightRevealed:
+			shouldConceal = tapLocation.x < _edgeInsets.left;
+			break;
+		case TRBRevealingViewControllerStateTopRevealed:
+			shouldConceal = tapLocation.y > (CGRectGetHeight(self.view.bounds) - _edgeInsets.bottom);
+			break;
+		case TRBRevealingViewControllerStateBottomRevealed:
+			shouldConceal = tapLocation.y < _edgeInsets.top;
+			break;
+		default:
+			break;
+	}
+	if (shouldConceal)
+		[self concealViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark Handle Panning
