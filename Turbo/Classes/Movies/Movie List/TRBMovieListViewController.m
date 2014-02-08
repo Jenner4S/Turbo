@@ -343,7 +343,7 @@ typedef NS_ENUM(NSUInteger, TRBMovieMode) {
 			[self.refreshControl beginRefreshing];
 		[[TRBRottenTomatoesClient sharedInstance] fetchMovieList:_currentList withHandler:^(NSDictionary *json, NSError *error) {
 			[self.refreshControl endRefreshing];
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			[_movies[TRBMovieModeList] removeAllObjects];
 			if (json) {
 				NSArray * movies = json[@"movies"];
@@ -370,7 +370,7 @@ typedef NS_ENUM(NSUInteger, TRBMovieMode) {
 	NSString * imageType = scale > 1.0 ? @"detailed" : @"thumbnail";
 	NSString * url = movie.posters[imageType];
 	[[TRBRottenTomatoesClient sharedInstance] fetchImageAtURL:url withHandler:^(UIImage * image, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (image)
 			movie.posterImage = image;
 		else
@@ -386,7 +386,7 @@ typedef NS_ENUM(NSUInteger, TRBMovieMode) {
 			[self.refreshControl beginRefreshing];
 		[[TRBRottenTomatoesClient sharedInstance] searchWithQuery:_currentQuery page:_page andHandler:^(NSDictionary *json, NSError *error) {
 			[self.refreshControl endRefreshing];
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			if (json) {
 				NSArray * movies = json[@"movies"];
 				for (NSDictionary * movie in movies) {

@@ -152,7 +152,7 @@ static NSString * const TRBCastSectionTitles[TRBCastSectionCount] = {@"Cast", @"
 
 - (void)fetcthRTCastForMovie:(TRBMovie *)movie {
     [[TRBRottenTomatoesClient sharedInstance] fetchCastsInfoForID:movie.rtID withHandler:^(NSDictionary *json, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (json) {
 			_rtCasts = json[@"cast"];
 			[self.tableView reloadData];
@@ -213,7 +213,7 @@ static NSString * const TRBCastSectionTitles[TRBCastSectionCount] = {@"Cast", @"
 		if (!profile) {
 			TRBTMDbProfileSize size = [UIScreen mainScreen].scale > 1.0 ? TRBTMDbProfileSizeW185 : TRBTMDbProfileSizeW45;
 			[[TRBTMDbClient sharedInstance] fetchProfileImage:cast[@"profile_path"] withSize:size completion:^(UIImage * image, NSError * error) {
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				if (!image)
 					image = [UIImage imageNamed:@"profile"];
 				_images[cast[@"profile_path"]] = image;

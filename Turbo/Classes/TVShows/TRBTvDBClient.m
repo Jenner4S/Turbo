@@ -91,7 +91,7 @@ static NSString * const TRBLastDBUpdateKey = @"TRBLastDBUpdate";
 	NSURL * URL = [NSURL URLWithString:URLString relativeToURL:_baseURL];
 	NSURLRequest * request = [NSURLRequest requestWithURL:URL];
 	[_session downloadRequest:request progress:NULL completion:^(NSURL *location, NSURLResponse *response, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (location && !error) {
 			NSURL * moveLocation = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", seriesID]]];
 			if ([[NSFileManager defaultManager] moveItemAtURL:location toURL:moveLocation error:&error]) {
@@ -103,7 +103,7 @@ static NSString * const TRBLastDBUpdateKey = @"TRBLastDBUpdate";
 				BOOL isDir = NO;
 				if ([[NSFileManager defaultManager] fileExistsAtPath:unzipDir isDirectory:&isDir])
 					[[NSFileManager defaultManager] removeItemAtPath:unzipDir error:&error];
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				[archive UnzipFileTo:unzipDir overWrite:YES];
 				[[NSFileManager defaultManager] removeItemAtURL:moveLocation error:&error];
 				[self processRecordsInDir:unzipDir overwrite:overwrite completion:completion];

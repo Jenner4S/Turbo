@@ -117,7 +117,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 				[result setupWithXML:xml];
 				NSError * error = nil;
 				[self.managedObjectContext save:&error];
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				if (handler) {
 					NSManagedObjectID * moID = result.objectID;
 					dispatch_async(dispatch_get_main_queue(), ^{
@@ -150,7 +150,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 		[request setReturnsDistinctResults:YES];
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		TRBTVShow * tvShow = [array lastObject];
 		if (!tvShow) {
 			tvShow = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([TRBTVShow class])
@@ -170,7 +170,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 			[request setFetchLimit:1];
 			error = nil;
 			array = [self.managedObjectContext executeFetchRequest:request error:&error];
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			TRBTVShowEpisode * episode = [array lastObject];
 			if (!episode) {
 				episode = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([TRBTVShowEpisode class])
@@ -189,7 +189,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 			error = nil;
 			array = [self.managedObjectContext executeFetchRequest:request error:&error];
 			TRBTVShowSeason * season = [array lastObject];
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			if (!season) {
 				season = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([TRBTVShowSeason class])
 													   inManagedObjectContext:self.managedObjectContext];
@@ -204,7 +204,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 		}
 		error = nil;
 		[self.managedObjectContext save:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (handler) {
 			NSManagedObjectID * moID = tvShow.objectID;
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -224,7 +224,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -246,7 +246,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([array count] == 1) {
 				NSManagedObjectID * moID = [array lastObject];
@@ -267,7 +267,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			handler([array[0] unsignedIntegerValue]);
 		});
@@ -290,7 +290,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -312,7 +312,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -332,7 +332,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContextMain deleteObject:tvShow];
 	NSError * error = nil;
 	[self.managedObjectContextMain save:&error];
-	LogCE(error, [error localizedDescription]);
+	LogCE(error != nil, [error localizedDescription]);
 }
 
 - (void)removeTVShowWithID:(NSUInteger)seriesID {
@@ -355,7 +355,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if ([array count] == 1) {
 			handler(array[0]);
 		} else {
@@ -388,7 +388,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 					[season addEpisodesObject:result];
 					NSError * error = nil;
 					[self.managedObjectContext save:&error];
-					LogCE(error, [error localizedDescription]);
+					LogCE(error != nil, [error localizedDescription]);
 					if (handler) {
 						NSManagedObjectID * moID = result.objectID;
 						dispatch_async(dispatch_get_main_queue(), ^{
@@ -419,7 +419,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([array count] == 1) {
 				handler((TRBTVShowEpisode *)[self.managedObjectContextMain objectWithID:array[0]]);
@@ -448,7 +448,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([array count])
 				handler((TRBTVShowEpisode *)[self.managedObjectContextMain objectWithID:array[0]]);
@@ -477,7 +477,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([array count])
 				handler((TRBTVShowEpisode *)[self.managedObjectContextMain objectWithID:array[0]]);
@@ -504,7 +504,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -531,7 +531,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -555,7 +555,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -582,7 +582,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 				[tvShowBkgr addBannersObject:result];
 				NSError * error = nil;
 				[self.managedObjectContext save:&error];
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				if (handler) {
 					NSManagedObjectID * moID = result.objectID;
 					dispatch_async(dispatch_get_main_queue(), ^{
@@ -616,7 +616,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 			[request setFetchLimit:1];
 			error = nil;
 			NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			TRBTVShowBanner * banner = [array lastObject];
 			if (!banner) {
 				banner = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([TRBTVShowBanner class])
@@ -629,7 +629,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 		}
 		error = nil;
 		[self.managedObjectContext save:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (handler)
 			dispatch_async(dispatch_get_main_queue(), handler);
 	}];
@@ -647,7 +647,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if ([array count] == 1) {
 				handler((TRBTVShowBanner *)[self.managedObjectContextMain objectWithID:array[0]]);
@@ -673,7 +673,7 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 	[self.managedObjectContext performBlock:^{
 		NSError * error = nil;
 		NSArray * array = [self.managedObjectContext executeFetchRequest:request error:&error];
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		dispatch_async(dispatch_get_main_queue(), ^{
 			NSMutableArray * results = [NSMutableArray arrayWithCapacity:[array count]];
 			for (NSManagedObjectID * moID in array)
@@ -692,14 +692,14 @@ static NSString * TRBTVShowBannerTypeStrings[TRBTVShowBannerTypeCount] = {@"post
 			if ([self.managedObjectContext hasChanges]) {
 				NSError * error = nil;
 				[self.managedObjectContext save:&error];
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 
 			}
 			dispatch_async(dispatch_get_main_queue(), ^{
 				if ([self.managedObjectContextMain hasChanges]) {
 					NSError * error = nil;
 					[self.managedObjectContextMain save:&error];
-					LogCE(error, [error localizedDescription]);
+					LogCE(error != nil, [error localizedDescription]);
 				}
 				saving = NO;
 			});

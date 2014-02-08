@@ -188,7 +188,7 @@ typedef NS_ENUM(NSUInteger, TRBTVShowMode) {
 		cell.posterImageView.image = poster;
 		if (!poster) {
 			[[TRBTvDBClient sharedInstance] fetchSeriesBannerAtPath:tvShow.poster completion:^(UIImage *image, NSError *error) {
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				if (image) {
 					_images[tvShow.poster] = image;
 					[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -311,7 +311,7 @@ typedef NS_ENUM(NSUInteger, TRBTVShowMode) {
 	_mode = TRBTVShowModeSearch;
 	_searchBar.showsSearchResultsButton = NO;
 	[[TRBTvDBClient sharedInstance] searchSeriesWithTitle:_currentQuery completion:^(TRBXMLElement * xml, NSError * error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (xml) {
 			NSArray * results = [xml elementsAtPath:@"Data.Series"];
 			[_tvShows[TRBTVShowModeSearch] addObjectsFromArray:results];
@@ -350,7 +350,7 @@ typedef NS_ENUM(NSUInteger, TRBTVShowMode) {
 
 - (void)trackSeries:(TRBXMLElement *)series {
 	[[TRBTvDBClient sharedInstance] downloadAndSaveFullSeriesRecordWithID:series[@"Series.id"] overwrite:NO completion:^(TRBTVShow *tvShow, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (tvShow) {
 			[_tvShows[TRBTVShowModeList] addObject:tvShow];
 			if (_mode == TRBTVShowModeList)

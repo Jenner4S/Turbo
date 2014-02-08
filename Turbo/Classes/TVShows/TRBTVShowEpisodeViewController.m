@@ -59,7 +59,7 @@
 	_overviewTextView.text = _episode.overview;
 	if ([_episode.imagePath length]) {
 		[[TRBTvDBClient sharedInstance] fetchSeriesBannerAtPath:_episode.imagePath completion:^(UIImage *image, NSError *error) {
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			_episodeImageView.image = image;
 		}];
 	}

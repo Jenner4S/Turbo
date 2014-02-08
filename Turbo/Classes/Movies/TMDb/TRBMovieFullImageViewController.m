@@ -164,7 +164,7 @@
 	if (!image) {
 		image = _images[filePath];
 		[self fetchHighResImageWithPath:filePath type:(indexPath.section ? TRBTMDbImageTypePoster : TRBTMDbImageTypeBackdrop) completion:^(UIImage * fetchedImage, NSError *error) {
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			if (!fetchedImage)
 				fetchedImage = [UIImage imageNamed:@"profile"];
 			_highResImages[filePath] = fetchedImage;

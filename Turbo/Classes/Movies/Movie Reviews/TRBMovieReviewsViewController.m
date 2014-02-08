@@ -134,7 +134,7 @@
 
 - (void)fetchReviews {
 	[[TRBRottenTomatoesClient sharedInstance] fetchMovieReviewsForID:_movie.rtID page:_page withHandler:^(NSDictionary *json, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (json) {
 			[_reviews addObjectsFromArray:json[@"reviews"]];
 			[self.tableView reloadData];

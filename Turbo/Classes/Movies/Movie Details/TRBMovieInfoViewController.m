@@ -184,7 +184,7 @@
 
 - (void)fetchRTMovieInfo {
 	[[TRBRottenTomatoesClient sharedInstance] fetchMovieInfoForID:_movieInfo.rtID withHandler:^(NSDictionary *json, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (json) {
 			[_movieInfo updateWithRTInfo:json];
 			[self displayMovie];
@@ -195,7 +195,7 @@
 
 - (void)fetchTMDbMovieInfo {
 	[[TRBTMDbClient sharedInstance] findMovieWithRTMovie:_movieInfo completion:^(NSDictionary *json, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		if (json) {
 			[_movieInfo updateWithTMDbInfo:json];
 			[self displayMovie];
@@ -212,7 +212,7 @@
 		if ([UIScreen mainScreen].scale > 1.0)
 			size = TRBTMDbBackdropSizeW780;
 		[[TRBTMDbClient sharedInstance] fetchBackdrop:backdropPath withSize:size completion:^(UIImage *image, NSError * error) {
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			if (!image)
 				image =  _movieInfo.posterImage;
 			_backdrop.image = image;

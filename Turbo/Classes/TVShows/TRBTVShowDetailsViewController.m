@@ -96,7 +96,7 @@ typedef NS_ENUM(NSUInteger, TRBTVShowDetailsSection) {
 			NSUInteger randomIndex = arc4random() % [banners count];
 			_banner = banners[randomIndex];
 			[[TRBTvDBClient sharedInstance] fetchSeriesBannerAtPath:_banner.bannerPath completion:^(UIImage *image, NSError *error) {
-				LogCE(error, [error localizedDescription]);
+				LogCE(error != nil, [error localizedDescription]);
 				_fanartImageView.image = image;
 				NSDictionary * stringAttr = @{
 								  NSForegroundColorAttributeName: [UIColor whiteColor],

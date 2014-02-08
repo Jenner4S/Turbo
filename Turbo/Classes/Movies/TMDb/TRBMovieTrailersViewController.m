@@ -189,7 +189,7 @@ typedef NS_ENUM(NSUInteger, TRBTrailerSection) {
 			_images[trailer[@"source"]] = image;
 			[self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 		}
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 	}];
 }
 

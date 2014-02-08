@@ -93,7 +93,7 @@
 		NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:@"(\\w+):"
 																				options:0
 																				  error:&error];
-		LogCE(error, error);
+		LogCE(error != nil, error);
 		if (!error) {
 			NSRange testRange = NSMakeRange(0, [_desc length]);
 			NSArray * matches = [regex matchesInString:_desc options:0 range:testRange];

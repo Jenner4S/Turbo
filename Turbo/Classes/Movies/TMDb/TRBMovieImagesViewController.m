@@ -75,7 +75,7 @@
 - (void)showImagesForMovie:(TRBMovie *)movie {
 	self.title = movie.title;
 	[[TRBTMDbClient sharedInstance] fetchMovieImagesWithID:movie.tmdbID completion:^(NSDictionary *json, NSError *error) {
-		LogCE(error, [error localizedDescription]);
+		LogCE(error != nil, [error localizedDescription]);
 		_backdrops = json[@"backdrops"];
 		_posters = json[@"posters"];
 		[self.collectionView reloadData];
@@ -105,7 +105,7 @@
 	UIImage * image = _images[filePath];
 	if (!image) {
 		TRBImageResultBlock imageHandler = ^(UIImage * fetchedImage, NSError *error) {
-			LogCE(error, [error localizedDescription]);
+			LogCE(error != nil, [error localizedDescription]);
 			if (!fetchedImage)
 				fetchedImage = [UIImage imageNamed:@"profile"];
 			_images[filePath] = fetchedImage;
