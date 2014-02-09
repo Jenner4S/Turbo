@@ -153,6 +153,7 @@ __attribute__((always_inline)) static inline CGRect TRBFrameForBottomViewControl
 	[self loadControllersFromStoryboard];
 	_tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
 	_tapGestureRecognizer.delegate = self;
+	[_tapGestureRecognizer setCancelsTouchesInView:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
