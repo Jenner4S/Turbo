@@ -196,14 +196,16 @@ typedef enum _TRBHostSectionIndex {
 }
 
 - (void)deactivateHostAtIndexPath:(NSIndexPath *)indexPath {
-	TRBHost * host = [_hostList activeHostAtIndex:indexPath.row];
-    [_hostList deactivateHost:host];
-    NSIndexPath * insertedIndexPath = [NSIndexPath indexPathForRow:[_hostList inactiveHostCount] - 1 inSection:1];
-    [self.tableView beginUpdates];
-	if ([_hostList activeHostCount] == 0)
-		[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-	[self.tableView moveRowAtIndexPath:indexPath toIndexPath:insertedIndexPath];
-    [self.tableView endUpdates];
+	if ([_hostList activeHostCount] < indexPath.row) {
+		TRBHost * host = [_hostList activeHostAtIndex:indexPath.row];
+		[_hostList deactivateHost:host];
+		NSIndexPath * insertedIndexPath = [NSIndexPath indexPathForRow:[_hostList inactiveHostCount] - 1 inSection:1];
+		[self.tableView beginUpdates];
+		if ([_hostList activeHostCount] == 0)
+			[self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+		[self.tableView moveRowAtIndexPath:indexPath toIndexPath:insertedIndexPath];
+		[self.tableView endUpdates];
+	}
 }
 
 - (TRBHost *)hostForIndexPath:(NSIndexPath *)indexPath {
