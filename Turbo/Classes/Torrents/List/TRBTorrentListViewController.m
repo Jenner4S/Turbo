@@ -94,8 +94,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	if (!self.revealingViewController || self.revealingViewController.state == TRBRevealingViewControllerStateConcealed)
+	if (!self.revealingViewController || self.revealingViewController.state == TRBRevealingViewControllerStateConcealed) {
 		[self start];
+	}
 	self.revealingViewController.delegate = self;
 }
 
@@ -106,8 +107,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	self.revealingViewController.delegate = nil;
-	if (!self.revealingViewController || self.revealingViewController.state < TRBRevealingViewControllerStateLeftRevealed)
+	if (!self.revealingViewController || self.revealingViewController.state < TRBRevealingViewControllerStateLeftRevealed) {
 		[self stop];
+	}
 }
 
 #pragma mark - TRBHostListDelegate Implementation

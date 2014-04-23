@@ -33,14 +33,8 @@ static NSString * const HTTPProtocols[HTTPProtocolCount] = {
 	@"https",
 };
 
-static NSInteger const DefaultPorts[HTTPProtocolCount] = {
-	80,
-	443,
-};
-
 #define SanitizeProtocolIndex(index) ((index) >= 0 && (index) < HTTPProtocolCount ? (index) : 0)
 #define TRBProtocolAtIndex(index) HTTPProtocols[SanitizeProtocolIndex(index)]
-#define TRBDefaultPortForProtocol(index) DefaultPorts[SanitizeProtocolIndex(index)]
 
 static NSString * const TRBHostDefaultPath = @"/transmission/rpc";
 
